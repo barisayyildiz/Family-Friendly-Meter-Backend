@@ -31,7 +31,7 @@ app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
 
-app.get("/:movie", (req, res) => {
+app.get("/movies/:movie", (req, res) => {
 
 
 	const {movie} = req.params;
@@ -79,6 +79,38 @@ app.get("/:movie", (req, res) => {
 
 	})
 
+
+
+})
+
+
+app.get("/search", (req, res) => {
+
+	let {name} = req.query;
+
+	name = name.split(" ").map(s => s[0].toUpperCase() + s.slice(1).toLowerCase()).join("+");
+
+	console.log("name : ", name);
+
+	Model.find(
+
+		{
+			"name" : 
+			{
+				"$regex" : name, "$options" : "i"
+			}
+		}, (err, docs) => {
+
+			console.log("------------------------")
+			
+			docs.forEach(i => console.log(i.name))
+
+			res.send(docs);
+
+			res.end();
+
+
+	})
 
 
 })
