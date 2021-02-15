@@ -15,6 +15,9 @@ function promiseApiCall(name)
 			let res = await fetch(url);
 			let data = await res.json();
 
+			if(data.Error != undefined)
+				reject();
+
 			const {imdbID, Year, Poster} = data;
 
 			console.log("Data : ", data);
@@ -35,7 +38,9 @@ function promiseApiCall(name)
 		
 		}catch(e)
 		{
+
 			reject(e);
+		
 		}
 
 	})
@@ -146,22 +151,6 @@ function promiseWebScrapping(imdbID)
 }
 
 
-
-// apiCall(name, apiKey);
-
 module.exports = promiseApiCall;
 
-
-// TMDB
-// d4abc07452f123e817af415515cc818e
-
-// OMDB
-// 976e02f
-
-// fight club
-// tt0137523
-
-
-// class
-// .advisory-severity-vote__vote-button-container
 

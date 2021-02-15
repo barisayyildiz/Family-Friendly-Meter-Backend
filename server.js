@@ -41,20 +41,37 @@ app.get("/:movie", (req, res) => {
 		if(data == null)
 		{
 
-			const obj = await apiCall(movie);
+			console.log("veritabanında bulunmadı...");
 
-			console.log("web scrapping yapıldı...");
+			try
+			{
+				const obj = await apiCall(movie);
 
-			const newMovie = new Model(obj);
-		
-			await newMovie.save();
+				console.log("obj : ", obj);
 
-			res.send(obj);
-			res.end();
+				const newMovie = new Model(obj);
 
+				// veritabanına kaydet
+				await newMovie.save();
+
+				res.send(obj);
+				res.end();
+
+			}catch(e)
+			{
+				console.log("api bulamadı...");
+
+				// api bulamazsa
+				
+				res.sendStatus(404);
+				res.end();
+
+			}
 
 		}else
 		{
+			// veritabanında bulundu
+
 			res.send(data);
 			res.end();
 		}
